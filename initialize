@@ -1,0 +1,32 @@
+#!/bin/bash
+set -e
+
+TAG="darktohka/github-actions-zebrafish"
+
+if [[ $(id -u) -ne 0 ]]; then
+  exec sudo "$0" $@
+  exit 1
+fi
+
+directory="$1"
+shift
+
+if [[ -z "$directory" ]]; then
+  echo "Usage: ./configure.sh [workername] [arguments]"
+  exit 1
+fi
+
+worker_directory=workers/"$directory"
+
+if [[ -d "$worker_directory" ]]; then
+  echo "$worker_directory exists."
+  echo "Continuing in 3 seconds..."
+  sleep 3
+  rm -rf "$worker_directory"
+fi
+
+docker run \
+  -v "$(pwd)"/"$worker_directory"/config:/config \
+  -v "$(pwd)"/"$worker_directory"/logs:/srv/_diag \
+  "$TAG" \
+  configure-worker "$directory" $@

@@ -1,0 +1,30 @@
+#!/bin/bash
+set -e
+
+# Check if all three arguments are provided
+if [[ "$#" -lt 1 ]]; then
+    echo "Usage: $0 <name> [arguments]"
+    exit 1
+fi
+
+name="$1"
+shift
+
+config_folder=/config
+
+if ! [[ -d "$config_folder" ]]; then
+    echo "$config_folder is missing."
+    exit 1
+fi
+
+cd /srv
+./Runner.Listener configure --unattended --disableupdate --name "$name" $@ || true
+
+if ! [[ -f .credentials ]]; then
+  echo "Failed to configure $name."
+  exit 1
+fi
+
+mv .credentials "$config_folder"/credentials.json
+mv .credentials_rsaparams "$config_folder"/rsa.json
+mv .runner "$config_folder"/runner.json

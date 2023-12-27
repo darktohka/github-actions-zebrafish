@@ -1,0 +1,43 @@
+#!/bin/bash
+set -e
+set -u
+
+tag="darktohka/github-actions-zebrafish"
+
+# Find services
+worker_directory=workers
+service_names="$(find "$worker_directory" -mindepth 1 -maxdepth 1 -type d -printf "%f\n")"
+
+services=""
+
+for service_name in $service_names; do
+  service_folder=./"$worker_directory"/"$service_name"
+  config_folder="$service_folder"/config
+  work_folder="$service_folder"/work
+  diag_folder="$service_folder"/logs
+
+  service="  ${service_name}:
+    image: ${tag}
+    restart: always
+    volumes:
+    - ${config_folder}/credentials.json:/srv/.credentials
+    - ${config_folder}/rsa.json:/srv/.credentials_rsaparams
+    - ${config_folder}/runner.json:/srv/.runner
+    - ${work_folder}:/srv/_work
+    - ${diag_folder}:/srv/_diag
+    - /run/buildkit/buildkitd.sock:/run/buildkit/buildkitd.sock
+    command: [\"/srv/Runner.Listener\", \"run\"]
+    working_dir: /srv
+"
+  services+=$service
+done
+
+template="services:
+$services"
+
+# Write template
+echo "$template" > docker-compose.yaml
+
+docker compose down
+sleep 3
+docker compose up
