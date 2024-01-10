@@ -1,6 +1,11 @@
 name: Build container
 
-on: [push, workflow_dispatch, repository_dispatch]
+on:
+  schedule:
+    - cron: "0 0 * * 0"
+  push:
+  workflow_dispatch:
+  repository_dispatch:
 
 jobs:
   build:
