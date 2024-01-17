@@ -22,6 +22,7 @@ RUN \
   rm src/global.json && \
   find ./ -type f \( -name '*.csproj' -or -name '*.props' \) -exec sed -i "s/${PACKAGE_RUNTIME}/${PACKAGE_RUNTIME_MUSL}/g" {} \; && \
   sed -i 's/path = new DirectoryInfo(GetDirectory(WellKnownDirectory.Bin)).Parent.FullName;/path = "\/srv";/g' src/Runner.Common/HostContext.cs && \
+  sed -i 's/5.2.1/7.2.0/g' src/Sdk/Sdk.csproj && \
   mv /code/SelfUpdater.cs src/Runner.Listener/SelfUpdater.cs && \
   mv /code/SelfUpdaterV2.cs src/Runner.Listener/SelfUpdaterV2.cs && \
   dotnet msbuild -t:Build -p:PackageRuntime="$PACKAGE_RUNTIME_MUSL" -p:BUILDCONFIG="Release" -p:RunnerVersion="$(cat src/runnerversion)" -p:SelfContained=true src/dir.proj && \
