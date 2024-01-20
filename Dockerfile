@@ -52,7 +52,7 @@ RUN apk add --no-cache --virtual .dev-deps curl llvm && \
 
 FROM alpine:edge
 
-RUN apk add --upgrade --no-cache ca-certificates-bundle libgcc libssl3 libstdc++ zlib git icu-libs nodejs bash jq && rm -rf /tmp/* /var/git
+RUN apk add --upgrade --no-cache ca-certificates-bundle libgcc libssl3 libstdc++ zlib git icu-libs nodejs bash jq openssh-client-default && rm -rf /tmp/* /var/git
 
 COPY --from=gh-builder /srv /srv
 COPY --from=buildkit-builder /srv/buildctl /usr/bin/buildctl
