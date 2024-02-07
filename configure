@@ -26,6 +26,7 @@ for service_name in $service_names; do
     - ${work_folder}:/srv/_work
     - ${diag_folder}:/srv/_diag
     - /run/buildkit/buildkitd.sock:/run/buildkit/buildkitd.sock
+    - /run/containerd/containerd.sock:/run/containerd/containerd.sock
     command: [\"/srv/Runner.Listener\", \"run\"]
     working_dir: /srv
 "

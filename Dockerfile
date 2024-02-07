@@ -47,6 +47,11 @@ RUN apk add --no-cache --virtual .dev-deps curl llvm && \
   xx-go build -buildvcs=false $(pwd)/cmd/buildctl && \
   llvm-strip buildctl && \
   mv buildctl /srv/buildctl && \
+  curl -sL https://api.github.com/repos/containerd/nerdctl/tarball/main | tar -xz && \
+  cd containerd-nerdctl* && \
+  xx-go build -buildvcs=false $(pwd)/cmd/nerdctl && \
+  llvm-strip nerdctl && \
+  mv nerdctl /srv/nerdctl && \
   rm -rf /tmp/* /root/go /root/.cache && \
   apk del .dev-deps
 
@@ -56,4 +61,5 @@ RUN apk add --upgrade --no-cache ca-certificates-bundle libgcc libssl3 libstdc++
 
 COPY --from=gh-builder /srv /srv
 COPY --from=buildkit-builder /srv/buildctl /usr/bin/buildctl
+COPY --from=buildkit-builder /srv/nerdctl /usr/bin/nerdctl
 COPY ./scripts/* /usr/bin/
