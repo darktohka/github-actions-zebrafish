@@ -49,7 +49,7 @@ RUN apk add --no-cache --virtual .dev-deps curl llvm && \
   mv buildctl /srv/buildctl && \
   curl -sL https://api.github.com/repos/containers/podman/tarball/main | tar -xz && \
   cd containers-podman* && \
-  xx-go build -buildvcs=false $(pwd)/cmd/podman && \
+  xx-go build $(pwd)/cmd/podman && \
   llvm-strip podman && \
   mv podman /srv/podman && \
   rm -rf /tmp/* /root/go /root/.cache && \
