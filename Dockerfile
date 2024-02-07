@@ -47,11 +47,11 @@ RUN apk add --no-cache --virtual .dev-deps curl llvm && \
   xx-go build -buildvcs=false $(pwd)/cmd/buildctl && \
   llvm-strip buildctl && \
   mv buildctl /srv/buildctl && \
-  curl -sL https://api.github.com/repos/containerd/nerdctl/tarball/main | tar -xz && \
-  cd containerd-nerdctl* && \
-  xx-go build -buildvcs=false $(pwd)/cmd/nerdctl && \
-  llvm-strip nerdctl && \
-  mv nerdctl /srv/nerdctl && \
+  curl -sL https://api.github.com/repos/containers/podman/tarball/main | tar -xz && \
+  cd containers-podman* && \
+  xx-go build -buildvcs=false $(pwd)/cmd/podman && \
+  llvm-strip podman && \
+  mv podman /srv/podman && \
   rm -rf /tmp/* /root/go /root/.cache && \
   apk del .dev-deps
 
