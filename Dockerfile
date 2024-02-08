@@ -41,7 +41,7 @@ ENV CGO_ENABLED=1
 COPY --from=xx / /
 
 RUN apk add --no-cache --virtual .dev-deps curl llvm clang && \
-  xx-apk add musl-dev gcc && \
+  xx-apk add --virtual .xx-deps musl-dev linux-headers gcc && \
   cd /tmp && \
   curl -sL https://api.github.com/repos/moby/buildkit/tarball/master | tar -xz && \
   cd moby-buildkit* && \
@@ -55,7 +55,7 @@ RUN apk add --no-cache --virtual .dev-deps curl llvm clang && \
   mv podman /srv/podman && \
   rm -rf /tmp/* /root/go /root/.cache && \
   apk del .dev-deps && \
-  xx-apk del musl-dev gcc
+  xx-apk del .xx-deps
 
 FROM alpine:edge
 
