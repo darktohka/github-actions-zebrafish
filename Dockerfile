@@ -48,11 +48,6 @@ RUN apk add --no-cache --virtual .dev-deps curl llvm clang pkgconf && \
   xx-go build -buildvcs=false $(pwd)/cmd/buildctl && \
   llvm-strip buildctl && \
   mv buildctl /srv/buildctl && \
-  curl -sL https://api.github.com/repos/containers/podman/tarball/main | tar -xz && \
-  cd containers-podman* && \
-  xx-go build $(pwd)/cmd/podman && \
-  llvm-strip podman && \
-  mv podman /srv/podman && \
   rm -rf /tmp/* /root/go /root/.cache && \
   apk del .dev-deps && \
   xx-apk del .xx-deps
@@ -60,7 +55,7 @@ RUN apk add --no-cache --virtual .dev-deps curl llvm clang pkgconf && \
 FROM alpine:edge
 
 RUN \
-  apk add --upgrade --no-cache ca-certificates-bundle libgcc libssl3 libstdc++ zlib git icu-libs nodejs bash jq openssh-client-default doas gpgme lvm2 && \
+  apk add --upgrade --no-cache ca-certificates-bundle libgcc libssl3 libstdc++ zlib git icu-libs nodejs bash jq openssh-client-default doas podman && \
   ln -s /usr/bin/doas /usr/bin/sudo && \
   echo "permit nopass root" > /etc/doas.conf && \
   rm -rf /tmp/* /var/git
