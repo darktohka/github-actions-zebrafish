@@ -40,7 +40,7 @@ ENV CGO_ENABLED=1
 
 COPY --from=xx / /
 
-RUN apk add --no-cache --virtual .dev-deps curl llvm && \
+RUN apk add --no-cache --virtual .dev-deps curl llvm gcc clang && \
   cd /tmp && \
   curl -sL https://api.github.com/repos/moby/buildkit/tarball/master | tar -xz && \
   cd moby-buildkit* && \
