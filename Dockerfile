@@ -36,7 +36,7 @@ RUN \
 FROM --platform=$BUILDPLATFORM golang:alpine AS buildkit-builder
 
 ARG TARGETPLATFORM
-ENV CGO_ENABLED=0
+ENV CGO_ENABLED=1
 
 COPY --from=xx / /
 
