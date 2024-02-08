@@ -67,5 +67,5 @@ RUN \
 
 COPY --from=gh-builder /srv /srv
 COPY --from=buildkit-builder /srv/buildctl /usr/bin/buildctl
-COPY --from=buildkit-builder /srv/nerdctl /usr/bin/nerdctl
+COPY --from=buildkit-builder /srv/podman /usr/bin/podman
 COPY ./scripts/* /usr/bin/
