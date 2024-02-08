@@ -41,7 +41,7 @@ ENV CGO_ENABLED=1
 COPY --from=xx / /
 
 RUN apk add --no-cache --virtual .dev-deps curl llvm clang pkgconf && \
-  xx-apk add --virtual .xx-deps musl-dev linux-headers btrfs-progs-dev gcc && \
+  xx-apk add --virtual .xx-deps musl-dev linux-headers btrfs-progs-dev gpgme-dev lvm2-dev gcc && \
   cd /tmp && \
   curl -sL https://api.github.com/repos/moby/buildkit/tarball/master | tar -xz && \
   cd moby-buildkit* && \
@@ -60,7 +60,7 @@ RUN apk add --no-cache --virtual .dev-deps curl llvm clang pkgconf && \
 FROM alpine:edge
 
 RUN \
-  apk add --upgrade --no-cache ca-certificates-bundle libgcc libssl3 libstdc++ zlib git icu-libs nodejs bash jq openssh-client-default doas && \
+  apk add --upgrade --no-cache ca-certificates-bundle libgcc libssl3 libstdc++ zlib git icu-libs nodejs bash jq openssh-client-default doas gpgme lvm2 && \
   ln -s /usr/bin/doas /usr/bin/sudo && \
   echo "permit nopass root" > /etc/doas.conf && \
   rm -rf /tmp/* /var/git
