@@ -55,7 +55,7 @@ RUN apk add --no-cache --virtual .dev-deps curl llvm clang pkgconf && \
 FROM alpine:edge
 
 RUN \
-  apk add --upgrade --no-cache ca-certificates-bundle libgcc libssl3 libstdc++ zlib git icu-libs nodejs bash jq openssh-client-default doas podman && \
+  apk add --upgrade --no-cache ca-certificates-bundle libgcc libssl3 libstdc++ zlib git icu-libs nodejs bash jq openssh-client-default doas podman s3cmd && \
   ln -s /usr/bin/doas /usr/bin/sudo && \
   echo "permit nopass root" > /etc/doas.conf && \
   rm -rf /tmp/* /var/git
