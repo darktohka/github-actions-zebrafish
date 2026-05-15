@@ -29,7 +29,7 @@ RUN \
   cp -r _layout/bin/* /srv/ && \
   rm -rf /tmp/* /root/.nuget /root/.nuget /root/.dotnet /root/.local && \
   apk del .dev-deps && \
-  for version in 24 22 20 18 16; do mkdir -p /srv/externals/node${version}/bin; ln -s /usr/bin/node /srv/externals/node${version}/bin/node; done
+  for version in 26 24 22 20 18 16; do mkdir -p /srv/externals/node${version}/bin; ln -s /usr/bin/node /srv/externals/node${version}/bin/node; done
 
 FROM --platform=$BUILDPLATFORM golang:alpine AS buildkit-builder
 
